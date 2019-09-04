@@ -1,0 +1,50 @@
+﻿@model Kentico.Recombee.Models.Widgets.RecommendedProducts.RecommendedProductsViewModel
+
+<div class="featured-product-widget">
+    <h1 class="title-tab featured-product-heading">Products recommended for you</h1>
+    <div class="row">
+        @foreach (var product in Model.Products)
+        {
+
+            var price = product.PriceDetail;
+            var currency = price.Currency;
+
+
+            <div class="col-lg-3 col-md-6 featured-product">
+                <a href="@Url.RouteUrl("Product", new {guid = product.ProductPageGUID, productAlias = product.ProductPageAlias})">
+                    <article class="product-tile">
+                        <h1 class="product-heading">@product.Name</h1>
+
+                        @if (string.IsNullOrEmpty(product.ImagePath))
+                        {
+                            <figure class="product-tile-image notavailable ">
+                                <img src="~/Content/Images/404.jpg" width="300" />
+                            </figure>
+                        }
+                        else
+                        {
+
+                            <figure class="product-tile-image ">
+                                <img src="@Url.Kentico().ImageUrl(product.ImagePath, SizeConstraint.MaxWidthOrHeight(300))" alt="@product.Name" />
+                            </figure>
+                        }
+
+                        <div class="product-tile-info">
+                            <span class="product-tile-price">
+                                @String.Format(currency.CurrencyFormatString, price.Price)
+                            </span>
+                            @if (price.ListPrice > price.Price)
+                            {
+                                <span class="product-tile-list-price">
+                                    @String.Format(currency.CurrencyFormatString, price.ListPrice)
+                                </span>
+                            }
+                        </div>
+                    </article>
+                </a>
+            </div>
+        }
+
+    </div>
+
+</div>
