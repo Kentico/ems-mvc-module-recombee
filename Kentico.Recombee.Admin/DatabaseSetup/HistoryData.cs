@@ -15,7 +15,7 @@ using Recombee.ApiClient.ApiRequests;
 namespace Kentico.Recombee.DatabaseSetup
 {
     /// <summary>
-    /// Encapsulates generating of history data into Recombee.
+    /// Encapsulates generating of history interactions into Recombee.
     /// </summary>
     public class HistoryData
     {
@@ -36,6 +36,9 @@ namespace Kentico.Recombee.DatabaseSetup
         }
 
 
+        /// <summary>
+        /// Generate history interactions into Recombee.
+        /// </summary>
         public void CreateHistoryData()
         {
             if (!(CMSApplication.ApplicationInitialized ?? false))
@@ -50,7 +53,6 @@ namespace Kentico.Recombee.DatabaseSetup
 
             var contacts = GetContacts();
 
-            PushProducts(coffees.Concat(brewers));
             PushArticles(articles);
 
             PushContacts(contacts);

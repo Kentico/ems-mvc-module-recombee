@@ -1,6 +1,11 @@
 ﻿using System;
-
+using System.Collections.Generic;
+using System.Linq;
+using CMS.Base;
+using CMS.Core;
 using CMS.DataEngine;
+using CMS.DocumentEngine;
+using CMS.Ecommerce;
 using Kentico.Recombee.Helpers;
 
 using Recombee.ApiClient;
@@ -41,6 +46,9 @@ namespace Kentico.Recombee.DatabaseSetup
 
             InitializeDBStructureForProducts();
             InitializeDBStructureForContacts();
+
+
+            PushProducts(GetProducts());
         }
 
 
@@ -61,6 +69,36 @@ namespace Kentico.Recombee.DatabaseSetup
             client.Send(new AddUserProperty("FirstName", "string"));
             client.Send(new AddUserProperty("LastName", "string"));
             client.Send(new AddUserProperty("Email", "string"));
+        }
+
+
+        private IList<SKUTreeNode> GetProducts()
+        {
+            var siteService = Service.Resolve<ISiteService>();
+            return DocumentHelper.GetDocuments()
+                         .PublishedVersion()
+                         .Published()
+                         .OnSite(siteService.CurrentSite?.SiteName)
+                         .WhereTrue("SKUEnabled")
+                         .OfType<SKUTreeNode>().ToList();
+        }
+
+        private void PushProducts(IEnumerable<SKUTreeNode> products)
+        {
+            var productsToPush = products.Select(productPage => new SetItemValues(productPage.DocumentGUID.ToString(),
+                new Dictionary<string, object>
+                {
+                    { "Name", productPage.DocumentSKUName },
+                    { "Description", productPage.DocumentSKUShortDescription },
+                    { "Content", productPage.DocumentSKUDescription},
+                    { "Culture", productPage.DocumentCulture},
+                    { "ClassName", productPage.ClassName},
+                    { "Price", productPage.SKU.SKUPrice },
+                    { "Type", "Product"},
+
+                }, true));
+
+            client.Send(new Batch(productsToPush));
         }
     }
 }
