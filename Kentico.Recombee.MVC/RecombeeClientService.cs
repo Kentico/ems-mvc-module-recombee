@@ -12,10 +12,16 @@ using Recombee.ApiClient.Bindings;
 
 namespace Kentico.Recombee
 {
+    /// <summary>
+    /// Encapsulates Recombee API.
+    /// </summary>
     public class RecombeeClientService
     {
         private RecombeeClient client;
 
+        /// <summary>
+        /// Creates an instace of the <see cref="RecombeeClientService"/> class.
+        /// </summary>
         public RecombeeClientService()
         {
             var databaseId = RecommendedProductsSettings.GetDatabaseId();
@@ -25,6 +31,12 @@ namespace Kentico.Recombee
         }
 
 
+        /// <summary>
+        /// Recommends a product to given <paramref name="contactGuid"/>.
+        /// </summary>
+        /// <param name="contactGuid">Contact for which personalized recommendations are to be generated.</param>
+        /// <param name="count">Number of products to be recommended.</param>
+        /// <returns></returns>
         public IList<Guid> RecommendProductsToContact(Guid contactGuid, int count)
         {
             var result = default(IList<Guid>);
@@ -43,11 +55,15 @@ namespace Kentico.Recombee
 
             }
 
-
             return result;
         }
 
 
+        /// <summary>
+        /// Logs page view
+        /// </summary>
+        /// <param name="contactGuid">Contact who performed the page view.</param>
+        /// <param name="pageGuid">Visited page.</param>
         public void LogPageView(Guid contactGuid, Guid pageGuid)
         {
             try
@@ -58,10 +74,14 @@ namespace Kentico.Recombee
             {
                 Service.Resolve<IEventLogService>().LogException("Recombee integration module", "LOGPAGEVIEW", ex);
             }
-
         }
 
-
+        /// <summary>
+        /// Logs product addition.
+        /// </summary>
+        /// <param name="contactGuid">Contact who added the item to the cart.</param>
+        /// <param name="productGuid">Product added to the cart.</param>
+        /// <param name="amount">Amount of added items.</param>
         public void LogProductAddition(Guid contactGuid, Guid productGuid, int amount)
         {
             try
@@ -72,10 +92,16 @@ namespace Kentico.Recombee
             {
                 Service.Resolve<IEventLogService>().LogException("Recombee integration module", "LOGPRODUCTADDITION", ex);
             }
-
         }
 
 
+
+        /// <summary>
+        /// Logs product purchased.
+        /// </summary>
+        /// <param name="contactGuid">Contact who performed the purchased.</param>
+        /// <param name="productGuid">Purchased product</param>
+        /// <param name="amount">Amount.</param>
         public void LogProductPurchase(Guid contactGuid, Guid productGuid, int amount)
         {
             try
@@ -86,7 +112,6 @@ namespace Kentico.Recombee
             {
                 Service.Resolve<IEventLogService>().LogException("Recombee integration module", "LOGPRODUCTPURCHASE", ex); ;
             }
-
         }
     }
 }

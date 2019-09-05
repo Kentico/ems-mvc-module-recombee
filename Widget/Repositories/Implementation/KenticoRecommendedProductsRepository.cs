@@ -23,13 +23,13 @@ namespace Kentico.Recombee.Repositories.Implementation
         /// <returns>An enumerable collection that contains the specified number of products.</returns>
         public IEnumerable<SKUTreeNode> GetRecommendedProducts(IList<Guid> recommendations, int count = 4)
         {
+            AddMissingRecommendations(recommendations, count);
+
             var recommendationWhere = new WhereCondition();
             if (recommendations.Any())
             {
                 recommendationWhere.WhereIn("DocumentGuid", recommendations);
             }
-
-            AddMissingRecommendations(recommendations, count);
 
             return DocumentHelper.GetDocuments()
                 .Published()

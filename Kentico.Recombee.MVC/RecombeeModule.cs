@@ -4,20 +4,24 @@ using CMS;
 using CMS.Activities;
 using CMS.Base;
 using CMS.ContactManagement;
-using CMS.Core;
 using CMS.DataEngine;
 using CMS.DocumentEngine;
 using CMS.Ecommerce;
 
 using Kentico.Recombee;
 
-
 [assembly: RegisterModule(typeof(RecombeeModule))]
 
 namespace Kentico.Recombee
 {
+    /// <summary>
+    /// Recombee module for MVC instance.
+    /// </summary>
     public class RecombeeModule : Module
     {
+        /// <summary>
+        /// Creates an instance of the <see cref="RecombeeModule"/> class.
+        /// </summary>
         public RecombeeModule() : base("RecombeeModule", false)
         {
         }
@@ -29,7 +33,6 @@ namespace Kentico.Recombee
             EcommerceEvents.ProductAddedToShoppingCart.Execute += ProductAddedToShoppingCart_Execute;
             EcommerceEvents.NewOrderCreated.Execute += NewOrderCreated_Execute;
             ActivityEvents.ActivityProcessedInLogService.Execute += ActivityProcessedInLogService_Execute;
-
         }
 
 

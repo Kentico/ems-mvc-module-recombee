@@ -1,4 +1,5 @@
-﻿using CMS.Core;
+﻿using CMS.Base;
+using CMS.Core;
 
 namespace Kentico.Recombee.Helpers
 {
@@ -16,7 +17,10 @@ namespace Kentico.Recombee.Helpers
         /// <returns></returns>
         public static string GetDatabaseId()
         {
-            return Service.Resolve<ISettingsService>()[IDENTIFIER_KEY];
+            var settingsService = Service.Resolve<ISettingsService>();
+            var siteService = Service.Resolve<ISiteService>();
+
+            return settingsService[$"{siteService.CurrentSite?.SiteName}.{IDENTIFIER_KEY}"];
         }
 
 
@@ -26,7 +30,10 @@ namespace Kentico.Recombee.Helpers
         /// <returns></returns>
         public static string GetSecretToken()
         {
-            return Service.Resolve<ISettingsService>()[SECRETTOKEN_KEY];
+            var settingsService = Service.Resolve<ISettingsService>();
+            var siteService = Service.Resolve<ISiteService>();
+
+            return settingsService[$"{siteService.CurrentSite?.SiteName}.{SECRETTOKEN_KEY}"];
         }
     }
 }
