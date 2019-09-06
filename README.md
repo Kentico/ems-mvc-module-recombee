@@ -19,7 +19,7 @@ The MVC module ensures PageBuilder widget *RecommendedProducts* in your MVC site
 
 ## Installation
 ### General steps
-1. Download the latest ZIP package from [Release](../releases)
+1. Download the latest ZIP package from [Release](../../releases)
 2. Extract ZIP packag
  
 ### Administration package
