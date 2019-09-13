@@ -22,7 +22,7 @@ namespace Kentico.Recombee
         /// <summary>
         /// Creates an instance of the <see cref="RecombeeModule"/> class.
         /// </summary>
-        public RecombeeModule() : base("RecombeeModule", false)
+        public RecombeeModule() : base("RecombeeClientModule", false)
         {
         }
 
