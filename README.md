@@ -1,64 +1,49 @@
 # Kentico EMS integration with Recombee.
 This repository contains source code for PoC integration of Kentico EMS and Recombee Artificial Intelligence Powered
-Recommender as a Service
-
+Recommender as a Service.
 ### :warning: **DISCLAIMER** 
-This is a *sample* module, it needs detailed testing and maybe some bug fixing for real production usage. See also [Known issues](#known-issues).
-
+This is a *sample* module. Further detailed testing and possibly bug fixing is needed for real production usage. See [Known issues](#known-issues) for more information.
 ## Description
-This project consists of two modules each for one instance (Admin, MVC). After installation of the administration module, you will have available Recombee application in the application menu. This application provides you administration interface to initialize Recombe database. Without the initialized database the module won't work correctly.
-
-The MVC module ensures PageBuilder widget *RecommendedProducts* in your MVC site. By default, the module logs cart actions - purchases and products additions. The widget contains a basic set of CSS styles to be usable on all MVC sites (non-DancingGoat).
-
-## Requirments
-1. Kentico EMS 12SP.
-1. This module uses online marketing contacts, so EMS license is required.
-1. Online marketing module has to be enabled in setting application.
+This project consists of two modules, Administration and MVC, each for one instance. After installation of the Administration module, you can access the Recombee application from the application menu. The Recombee application provides you with an interface for initialization of the Recombee database. A properly initialized database is necessary for the Administration module to work correctly.
+The MVC module ensures the *RecommendedProducts* page builder widget on your MVC site. By default, the MVC module logs shopping cart actions -- purchases and product additions. The *RecommendedProducts* widget includes only a basic set of CSS styles usable on your other MVC sites.
+## Requirements
+1. *Kentico 12 Service Pack* installed.
+1. The integration uses online marketing features (e.g. Contacts), so the *Kentico EMS* license is required.
+1. The *Online marketing* module has to be enabled in the *Settings* application.
 1. You need to have an account on Recombee.com 
-   - you can create your free account on Recombee.com or have a project registered in the Kentico organization (contact stanislavs(at)kentico.com for more details) 
-
+   - you can create your own free account on Recombee.com or have your project registered in the Kentico organization (contact stanislavs(at)kentico.com for more details) 
 ## Installation
 ### General steps
-1. Download the latest ZIP package from [Release](../../releases).
-2. Extract ZIP package.
+1. Download the latest ZIP package from [Releases](../../releases).
+2. Extract the ZIP package.
  
 ### Administration package
-1. Open solution with your administration project (WebApp.sln).
-    1. Navigate to "NuGet Package Manager Console". 
-    1. Run *Install-Package \<path-to-package-folder>\Kentico.Recombee.Admin.nupkg* where \<path-to-package-folder> is file system path to extracted ZIP package.
+1. Open the solution with your administration project (WebApp.sln)
+    1. Navigate to the *NuGet Package Manager Console*. 
+    1. Run *Install-Package \<path-to-package-folder>\Kentico.Recombee.Admin.nupkg* where \<path-to-package-folder> is the file system path to the extracted ZIP package.
 2. Build the project.
-3. Go to settings application in administration UI and navigate to Integration -> Recombee. Fill Recombe database identifier and secret token.
-
+3. Go to the *Settings* application and navigate to *Integration* -> *Recombee*. Fill in the *Recombee database identifier* and *Secret token* fields.
 ### Package for MVC site.
-1. Open solution with your MVC project (eg. DancingGoatMvc.sln)
-   1. Navigate to "NuGet Package Manager Console". 
-   1. Run *Install-Package \<path-to-package-folder>\Kentico.Recombee.MVC.nupkg* where \<path-to-package-folder> is file system path to extracted ZIP package.
-1. Build the project
-
+1. Open the solution with your MVC project (eg. DancingGoatMvc.sln)
+   1. Navigate to the *NuGet Package Manager Console*. 
+   1. Run *Install-Package \<path-to-package-folder>\Kentico.Recombee.MVC.nupkg* where \<path-to-package-folder> is the file system path to the extracted ZIP package.
+1. Build the project.
 #### Enable articles views logging [Optional]
-To log articles page views, add the following code into your *ArticlesController*  action *Detail*
-
+To log article page views, add the following code into your *ArticlesController*  action *Detail*
 ```csharp
 var contact = ContactManagementContext.GetCurrentContact();
-
 var recombeeClient = new RecombeeClientService();
 recombeeClient.LogPageView(contact.ContactGUID, article.DocumentGUID);
 ```
-
-Please note *Online marketing* feature has to be enabled in the settings application.
-
-#### Installation MVC package on non-DancingGoat based project
-The widget can be used on all MVC sites based on K12SP (older version were not tested).
-Since the widget renders products list with links to an appropriate detail you will need to add/have ProductController with action Detail (see DancingGoat sample for more details). Alternatively,
-you will need to modify the widget view.
-
-The second requirement for non-DG sites is to have [Bootstrap CSS](https://getbootstrap.com/docs/4.3/getting-started/introduction/) linked on the page with the widget.
-
-Without previous steps, the MVC widget may work or be displayed incorrectly.
-
+Please note that the *Online marketing* feature has to be enabled in the *Settings* application.
+#### Installing the MVC package on other projects than the DancingGoat sample site
+The *RecommendedProducts* widget can be used on all MVC sites based on Kentico 12 Service Pack (older Kentico versions were not tested).
+Because the widget renders the products list with links to an appropriate detail, you will need to create a *ProductController* with a *Detail* action (see the DancingGoat sample site for more details). Alternatively, you will need to modify the widget view.
+The second requirement for projects other than the DancingGoat sample site is to have the [Bottstrap CSS](https://getbootstrap.com/docs/4.3/getting-started/introduction/) linked on the page with the widget.
+Without the previously mentioned steps, the MVC widget may not work or can be displayed incorrectly.
 ### Known issues
-- When a new product is added to the E-commerce store, it is not reflected in Recombee
-    - Similar problems are known when deleting/changing a product.
-- Contact merge is not handled
-- Unavailable products (due to selling out) are not handled as well.
+- When a new product is added to the E-commerce store, it is not reflected in Recombee.
+    - Similar problems are known when deleting or changing a product.
+- Merging contacts is not handled.
+- Unavailable products (e.g. sold out products) are not handled.
 - When creating(updating) new contact, detailed information (such as email address or name) are not pushed to Recombee database.
