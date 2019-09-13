@@ -32,22 +32,6 @@ namespace Kentico.Recombee
             base.OnInit();
             EcommerceEvents.ProductAddedToShoppingCart.Execute += ProductAddedToShoppingCart_Execute;
             EcommerceEvents.NewOrderCreated.Execute += NewOrderCreated_Execute;
-            ActivityEvents.ActivityProcessedInLogService.Execute += ActivityProcessedInLogService_Execute;
-        }
-
-
-        private void ActivityProcessedInLogService_Execute(object sender, CMSEventArgs<IActivityInfo> e)
-        {
-            var activity = e.Parameter;
-
-            if (activity.ActivityType == PredefinedActivityType.PAGE_VISIT)
-            {
-                var activityContact = ContactInfoProvider.GetContactInfo(activity.ActivityContactID);
-                if (activityContact != null)
-                {
-
-                }
-            }
         }
 
 
