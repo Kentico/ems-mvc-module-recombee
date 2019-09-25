@@ -2,7 +2,7 @@
 This repository contains source code for PoC integration of Kentico EMS and Recombee Artificial Intelligence Powered
 Recommender as a Service.
 ### :warning: **DISCLAIMER** 
-This is a *sample* module. Further detailed testing and possibly bug fixing is needed for real production usage. See [Known issues](../../issues) for more information.
+> This is a *sample* module. Further detailed testing and possibly bug fixing is needed for real production usage. See [Known issues](../../issues) for more information.
 ## Description
 This project consists of two modules, Administration and MVC, each for one instance. After installation of the Administration module, you can access the Recombee application from the application menu. The Recombee application provides you with an interface for initialization of the Recombee database. A properly initialized database is necessary for the Administration module to work correctly.
 The MVC module ensures the *RecommendedProducts* page builder widget on your MVC site. By default, the MVC module logs shopping cart actions -- purchases and product additions. The *RecommendedProducts* widget includes only a basic set of CSS styles usable on your other MVC sites.
