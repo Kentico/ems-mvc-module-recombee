@@ -41,9 +41,4 @@ The *RecommendedProducts* widget can be used on all MVC sites based on Kentico 1
 Because the widget renders the products list with links to an appropriate detail, you will need to create a *ProductController* with a *Detail* action (see the DancingGoat sample site for more details). Alternatively, you will need to modify the widget view.
 The second requirement for projects other than the DancingGoat sample site is to have the [Bottstrap CSS](https://getbootstrap.com/docs/4.3/getting-started/introduction/) linked on the page with the widget.
 Without the previously mentioned steps, the MVC widget may not work or can be displayed incorrectly.
-### Known issues
-- When a new product is added to the E-commerce store, it is not reflected in Recombee.
-    - Similar problems are known when deleting or changing a product.
-- Merging contacts is not handled.
-- Unavailable products (e.g. sold out products) are not handled.
-- When creating(updating) new contact, detailed information (such as email address or name) are not pushed to Recombee database.
+
