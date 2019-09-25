@@ -42,3 +42,4 @@ Because the widget renders the products list with links to an appropriate detail
 The second requirement for projects other than the DancingGoat sample site is to have the [Bottstrap CSS](https://getbootstrap.com/docs/4.3/getting-started/introduction/) linked on the page with the widget.
 Without the previously mentioned steps, the MVC widget may not work or can be displayed incorrectly.
 
+![Analytics](https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Kentico/ems-mvc-module-recombee?pixel)
