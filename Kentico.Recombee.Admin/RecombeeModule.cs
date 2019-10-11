@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using CMS;
+using CMS.Base;
+using CMS.ContactManagement;
 using CMS.Core;
 using CMS.DataEngine;
 using CMS.DocumentEngine;
@@ -34,6 +35,7 @@ namespace Kentico.Recombee
         {
             base.OnInit();
             DocumentEvents.Insert.After += ProductCreated;
+            ContactManagementEvents.ContactMerge.Execute += ContactMerge_Execute;
         }
 
         private void ProductCreated(object sender, DocumentEventArgs e)
@@ -45,8 +47,7 @@ namespace Kentico.Recombee
                 return;
             }
 
-            var productPage = document as SKUTreeNode;
-            if (productPage == null)
+            if (!(document is SKUTreeNode productPage))
             {
                 return;
             }
@@ -75,6 +76,13 @@ namespace Kentico.Recombee
             {
                 Service.Resolve<IEventLogService>().LogException("RecombeeAdminModule", "ON_PRODUCT_CREATED", ex);
             }
+        }
+
+
+        private void ContactMerge_Execute(object sender, CMSEventArgs<ContactMergeModel> e)
+        {
+            var service = Service.Resolve<IContactMergeProcessor>();
+            service.Process(e.Parameter.SourceContact, e.Parameter.TargetContact);
         }
     }
 }
