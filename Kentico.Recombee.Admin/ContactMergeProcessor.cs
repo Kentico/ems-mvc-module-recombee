@@ -7,6 +7,9 @@ using Recombee.ApiClient.ApiRequests;
 
 namespace Kentico.Recombee
 {
+    /// <summary>
+    /// Encapsulates transferring user actions from the source user to the target user.
+    /// </summary>
     public class ContactMergeProcessor : IContactMergeProcessor
     {
         private readonly IRecombeeClientService recombeeClientService;
@@ -18,12 +21,13 @@ namespace Kentico.Recombee
 
 
         /// <summary>
-        /// Moves all existing purchases and cart additions from <paramref name="source"/> 
-        /// contact to <paramref name="target"/> contact.
+        /// Moves all existing interactions (purchases and cart additions) of the <paramref name="source"/> 
+        /// contact to the <paramref name="target"/> contact.
         /// </summary>
         /// <param name="source">Source contact.</param>
-        /// <param name="target">Target contact</param>
+        /// <param name="target">Target contact.</param>
         /// <exception cref="ArgumentNullException">Is thrown when <paramref name="source"/> or <paramref name="target"/> is null.</exception>
+        /// <remarks>When interactions are successfully transferred to <paramref name="target"/>, the <paramref name="source"/> is deleted from Recombee.</remarks>
         public void Process(ContactInfo source, ContactInfo target)
         {
             if (source is null)
@@ -42,31 +46,48 @@ namespace Kentico.Recombee
 
         private void ProcessInternal(ContactInfo source, ContactInfo target)
         {
-            var purchases = recombeeClientService.GetPurchases(source);
-            var cardAdditions = recombeeClientService.GetCartAdditions(source);
+            MovePurchases(source, target);
+            MoveCartAdditions(source, target);
+            RemoveSourceUser(source);
+        }
 
-            var addPurchases = new List<AddPurchase>();
-            var addCartAdditions = new List<AddCartAddition>();
-            var deletePurchases = new List<DeletePurchase>();
-            var deleteCartAdditions = new List<DeleteCartAddition>();
+
+        private void MovePurchases(ContactInfo source, ContactInfo target)
+        {
+            var purchases = recombeeClientService.GetPurchases(source);
+            var purchasesToAdd = new List<AddPurchase>();
+            var purchasesToDelete = new List<DeletePurchase>();
 
             foreach (var purchase in purchases)
             {
-                addPurchases.Add(new AddPurchase(target.ContactGUID.ToString(), purchase.ItemId, amount: purchase.Amount, cascadeCreate: true));
-                deletePurchases.Add(new DeletePurchase(purchase.UserId, purchase.ItemId));
+                purchasesToAdd.Add(new AddPurchase(target.ContactGUID.ToString(), purchase.ItemId, amount: purchase.Amount, cascadeCreate: true));
+                purchasesToDelete.Add(new DeletePurchase(purchase.UserId, purchase.ItemId));
             }
+
+            recombeeClientService.Delete(purchasesToDelete);
+            recombeeClientService.Add(purchasesToAdd);
+        }
+
+
+        private void MoveCartAdditions(ContactInfo source, ContactInfo target)
+        {
+            var cardAdditions = recombeeClientService.GetCartAdditions(source);
+            var cartAdditionsToAdd = new List<AddCartAddition>();
+            var cartAdditionsToDelete = new List<DeleteCartAddition>();
 
             foreach (var cartAddition in cardAdditions)
             {
-                addCartAdditions.Add(new AddCartAddition(target.ContactGUID.ToString(), cartAddition.ItemId, amount: cartAddition.Amount, cascadeCreate: true));
-                deleteCartAdditions.Add(new DeleteCartAddition(cartAddition.UserId, cartAddition.ItemId));
+                cartAdditionsToAdd.Add(new AddCartAddition(target.ContactGUID.ToString(), cartAddition.ItemId, amount: cartAddition.Amount, cascadeCreate: true));
+                cartAdditionsToDelete.Add(new DeleteCartAddition(cartAddition.UserId, cartAddition.ItemId));
             }
 
-            recombeeClientService.Delete(deletePurchases);
-            recombeeClientService.Delete(deleteCartAdditions);
-            recombeeClientService.Add(addPurchases);
-            recombeeClientService.Add(addCartAdditions);
+            recombeeClientService.Delete(cartAdditionsToDelete);
+            recombeeClientService.Add(cartAdditionsToAdd);
+        }
 
+
+        private void RemoveSourceUser(ContactInfo source)
+        {
             recombeeClientService.Delete(new DeleteUser(source.ContactGUID.ToString()));
         }
     }
