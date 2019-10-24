@@ -1,8 +1,6 @@
-# Kentico EMS integration with Recombee.
+# Recombee Product Recommendations for Kentico EMS.
 This repository contains source code for PoC integration of Kentico EMS and Recombee Artificial Intelligence Powered
 Recommender as a Service.
-### :warning: **DISCLAIMER** 
-> This is a *sample* module. Further detailed testing and possibly bug fixing is needed for real production usage. See [Known issues](../../issues) for more information.
 ## Description
 This project consists of two modules, Administration and MVC, each for one instance. After installation of the Administration module, you can access the Recombee application from the application menu. The Recombee application provides you with an interface for initialization of the Recombee database. A properly initialized database is necessary for the Administration module to work correctly.
 The MVC module ensures the *RecommendedProducts* page builder widget on your MVC site. By default, the MVC module logs shopping cart actions -- purchases and product additions. The *RecommendedProducts* widget includes only a basic set of CSS styles usable on your other MVC sites.
@@ -41,5 +39,7 @@ The *RecommendedProducts* widget can be used on all MVC sites based on Kentico 1
 Because the widget renders the products list with links to an appropriate detail, you will need to create a *ProductController* with a *Detail* action (see the DancingGoat sample site for more details). Alternatively, you will need to modify the widget view.
 The second requirement for projects other than the DancingGoat sample site is to have the [Bottstrap CSS](https://getbootstrap.com/docs/4.3/getting-started/introduction/) linked on the page with the widget.
 Without the previously mentioned steps, the MVC widget may not work or can be displayed incorrectly.
+
+## [Questions & Support](https://github.com/Kentico/Home/blob/master/README.md)
 
 ![Analytics](https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Kentico/ems-mvc-module-recombee?pixel)
