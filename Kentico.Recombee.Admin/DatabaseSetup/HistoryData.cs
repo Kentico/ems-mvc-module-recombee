@@ -193,25 +193,6 @@ namespace Kentico.Recombee.DatabaseSetup
                 }, true));
 
             client.Send(new Batch(articlesToPush));
-        }
-
-
-        private void PushProducts(IEnumerable<SKUTreeNode> products)
-        {
-            var productsToPush = products.Select(productPage => new SetItemValues(productPage.DocumentGUID.ToString(),
-                new Dictionary<string, object>
-                {
-                    { "Name", productPage.DocumentSKUName },
-                    { "Description", productPage.DocumentSKUShortDescription },
-                    { "Content", productPage.DocumentSKUDescription},
-                    { "Culture", productPage.DocumentCulture},
-                    { "ClassName", productPage.ClassName},
-                    { "Price", productPage.SKU.SKUPrice },
-                    { "Type", "Product"},
-
-                }, true));
-
-            client.Send(new Batch(productsToPush));
-        }
+        }        
     }
 }

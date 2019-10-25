@@ -6,8 +6,9 @@ using CMS.Core;
 using CMS.DataEngine;
 using CMS.DocumentEngine;
 using CMS.Ecommerce;
-using Kentico.Recombee.Helpers;
 
+using Kentico.Recombee.Helpers;
+using Kentico.Recombee.Mappers;
 using Recombee.ApiClient;
 using Recombee.ApiClient.ApiRequests;
 
@@ -85,18 +86,11 @@ namespace Kentico.Recombee.DatabaseSetup
 
         private void PushProducts(IEnumerable<SKUTreeNode> products)
         {
-            var productsToPush = products.Select(productPage => new SetItemValues(productPage.DocumentGUID.ToString(),
-                new Dictionary<string, object>
-                {
-                    { "Name", productPage.DocumentSKUName },
-                    { "Description", productPage.DocumentSKUShortDescription },
-                    { "Content", productPage.DocumentSKUDescription},
-                    { "Culture", productPage.DocumentCulture},
-                    { "ClassName", productPage.ClassName},
-                    { "Price", productPage.SKU.SKUPrice },
-                    { "Type", "Product"},
-
-                }, true));
+            var productsToPush = products.Select(productPage => new SetItemValues(
+                productPage.DocumentGUID.ToString(),
+                ProductMapper.Map(productPage),
+                true)
+            );
 
             client.Send(new Batch(productsToPush));
         }

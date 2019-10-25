@@ -2,6 +2,7 @@
 
 using CMS;
 using CMS.ContactManagement;
+using CMS.Ecommerce;
 
 using Kentico.Recombee;
 
@@ -71,5 +72,12 @@ namespace Kentico.Recombee
         /// </summary>
         /// <param name="itemsToAdd">Cart additions to add.</param>
         void Add(IEnumerable<AddCartAddition> itemsToAdd);
+
+
+        /// <summary>
+        /// Updates given product <paramref name="productPage"/> in Recombee database.
+        /// </summary>
+        /// <param name="productPage">Product to update.</param>
+        void UpdateProduct(SKUTreeNode productPage);
     }
 }

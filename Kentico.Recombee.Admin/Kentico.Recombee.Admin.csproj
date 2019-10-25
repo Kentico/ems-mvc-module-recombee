@@ -552,6 +552,7 @@
     <Compile Include="IContactMergeProcessor.cs" />
     <Compile Include="IProductUpdatesProcessor.cs" />
     <Compile Include="IRecombeeClientService.cs" />
+    <Compile Include="Mappers\ProductMapper.cs" />
     <Compile Include="ProductUpdatesProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecombeeClientService.cs" />

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-using CMS.Core;
-using CMS.Ecommerce;
-
-using Recombee.ApiClient.ApiRequests;
+﻿using CMS.Ecommerce;
 
 namespace Kentico.Recombee
 {
@@ -31,26 +25,7 @@ namespace Kentico.Recombee
         /// <param name="productPage">Product page.</param>
         public void ProcessNewProduct(SKUTreeNode productPage)
         {
-            var productsToPush = new SetItemValues(productPage.DocumentGUID.ToString(),
-                new Dictionary<string, object>
-                {
-                    { "Name", productPage.DocumentSKUName },
-                    { "Description", productPage.DocumentSKUShortDescription },
-                    { "Content", productPage.DocumentSKUDescription},
-                    { "Culture", productPage.DocumentCulture},
-                    { "ClassName", productPage.ClassName},
-                    { "Price", productPage.SKU.SKUPrice },
-                    { "Type", "Product"},
-                }, true);
-
-            try
-            {
-                recombeeClientService.Send(productsToPush);
-            }
-            catch (Exception ex)
-            {
-                Service.Resolve<IEventLogService>().LogException("RecombeeAdminModule", "ON_PRODUCT_CREATED", ex);
-            }
+            recombeeClientService.UpdateProduct(productPage);
         }
     }
 }

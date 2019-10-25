@@ -535,6 +535,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContactMergeProcessorTests.cs" />
+    <Compile Include="ProductMapperTests.cs" />
+    <Compile Include="ProductUpdatesProcessorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
