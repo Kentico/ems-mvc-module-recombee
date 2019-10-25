@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHubFiles", "GitHubFiles"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kentico.Recombee.Admin.Tests", "Kentico.Recombee.Admin.Tests\Kentico.Recombee.Admin.Tests.csproj", "{C914BB5E-093E-4BF5-B6F5-44E3E0D42CBC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7A66C752-29C8-42A1-8BCE-90B8BA22BD5A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C914BB5E-093E-4BF5-B6F5-44E3E0D42CBC} = {7A66C752-29C8-42A1-8BCE-90B8BA22BD5A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {12D2473B-2D8D-446D-A89B-708FD800DD1A}
