@@ -11,7 +11,7 @@ namespace Kentico.Recombee.Admin.Tests
     public class ProductUpdatesProcessorTests : UnitTests
     {
         [Test]
-        public void Test()
+        public void ProcessNewProduct_ProductIsAdded()
         {
             var clientService = Substitute.For<IRecombeeClientService>();
             Service.Use<IRecombeeClientService>(clientService);
