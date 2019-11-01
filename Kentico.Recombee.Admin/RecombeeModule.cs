@@ -1,4 +1,5 @@
-﻿using CMS;
+﻿using System;
+using CMS;
 using CMS.Base;
 using CMS.ContactManagement;
 using CMS.Core;
@@ -31,6 +32,7 @@ namespace Kentico.Recombee
             base.OnInit();
             DocumentEvents.Insert.After += ProductCreated;
             DocumentEvents.Delete.After += ProductDeleted;
+            DocumentEvents.Update.After += ProductUpdated;
             ContactManagementEvents.ContactMerge.Execute += ContactMerge_Execute;
         }
 
@@ -70,6 +72,25 @@ namespace Kentico.Recombee
 
             var service = Service.Resolve<IProductUpdatesProcessor>();
             service.DeleteProduct(productPage);
+        }
+
+
+        private void ProductUpdated(object sender, DocumentEventArgs e)
+        {
+            var page = e.Node;
+
+            if (!page.IsProduct())
+            {
+                return;
+            }
+
+            if (!(page is SKUTreeNode productPage))
+            {
+                return;
+            }
+
+            var service = Service.Resolve<IProductUpdatesProcessor>();
+            service.UpdateProduct(productPage);
         }
 
 

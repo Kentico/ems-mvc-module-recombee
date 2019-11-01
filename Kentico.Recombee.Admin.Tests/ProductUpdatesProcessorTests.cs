@@ -62,5 +62,16 @@ namespace Kentico.Recombee.Admin.Tests
 
             clientService.Received().Delete(Arg.Is(productPage));
         }
+
+
+        [Test]
+        public void UpdateProduct_ProductIsUdated()
+        {
+            var productPage = Substitute.For<SKUTreeNode>();
+
+            processor.UpdateProduct(productPage);
+
+            clientService.Received().UpdateProduct(Arg.Is(productPage));
+        }
     }
 }

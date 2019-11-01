@@ -31,7 +31,7 @@ namespace Kentico.Recombee
                 throw new ArgumentNullException(nameof(productPage));
             }
 
-            recombeeClientService.UpdateProduct(productPage);
+            UpdateProduct(productPage);
         }
 
 
@@ -47,6 +47,21 @@ namespace Kentico.Recombee
             }
 
             recombeeClientService.Delete(productPage);
+        }
+
+
+        /// <summary>
+        /// Updates given product from recombee database.
+        /// </summary>
+        /// <param name="user">Product to update.</param>
+        public void UpdateProduct(SKUTreeNode productPage)
+        {
+            if (productPage is null)
+            {
+                throw new ArgumentNullException(nameof(productPage));
+            }
+
+            recombeeClientService.UpdateProduct(productPage);
         }
     }
 }
