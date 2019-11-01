@@ -53,7 +53,7 @@ namespace Kentico.Recombee
             }
 
             var service = Service.Resolve<IProductUpdatesProcessor>();
-            service.ProcessNewProduct(productPage);
+            service.AddProduct(productPage);
         }
 
 

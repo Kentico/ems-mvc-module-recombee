@@ -1,4 +1,5 @@
-﻿using CMS.Ecommerce;
+﻿using System;
+using CMS.Ecommerce;
 
 namespace Kentico.Recombee
 {
@@ -15,7 +16,7 @@ namespace Kentico.Recombee
         /// <param name="recombeeClientService">Client service.</param>
         public ProductUpdatesProcessor(IRecombeeClientService recombeeClientService)
         {
-            this.recombeeClientService = recombeeClientService;
+            this.recombeeClientService = recombeeClientService ?? throw new ArgumentNullException(nameof(recombeeClientService));
         }
 
 
@@ -23,7 +24,7 @@ namespace Kentico.Recombee
         /// Process added product in Recombee.
         /// </summary>
         /// <param name="productPage">Product page.</param>
-        public void ProcessNewProduct(SKUTreeNode productPage)
+        public void AddProduct(SKUTreeNode productPage)
         {
             recombeeClientService.UpdateProduct(productPage);
         }

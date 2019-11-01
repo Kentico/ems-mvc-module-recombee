@@ -16,6 +16,6 @@ namespace Kentico.Recombee
         /// Process added product in Recombee.
         /// </summary>
         /// <param name="productPage">Product page.</param>
-        void ProcessNewProduct(SKUTreeNode productPage);
+        void AddProduct(SKUTreeNode productPage);
     }
 }

@@ -11,14 +11,21 @@ namespace Kentico.Recombee.Admin.Tests
     public class ProductUpdatesProcessorTests : UnitTests
     {
         [Test]
-        public void ProcessNewProduct_ProductIsAdded()
+        public void Ctor_NullArgument_ThrowsArgumentNullException()
+        {
+            Assert.That(() => { new ProductUpdatesProcessor(null); }, Throws.ArgumentNullException);
+        }
+
+
+        [Test]
+        public void AddProduct_ProductIsAdded()
         {
             var clientService = Substitute.For<IRecombeeClientService>();
             Service.Use<IRecombeeClientService>(clientService);
             var productPage = Substitute.For<SKUTreeNode>();
 
             var processor = Service.Resolve<IProductUpdatesProcessor>();
-            processor.ProcessNewProduct(productPage);
+            processor.AddProduct(productPage);
 
             clientService.Received().UpdateProduct(Arg.Is(productPage));
         }
