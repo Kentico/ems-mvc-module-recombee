@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using CMS;
+﻿using CMS;
 using CMS.Base;
 using CMS.ContactManagement;
 using CMS.Core;
@@ -9,9 +7,6 @@ using CMS.DocumentEngine;
 using CMS.Ecommerce;
 
 using Kentico.Recombee;
-using Kentico.Recombee.Helpers;
-using Recombee.ApiClient;
-using Recombee.ApiClient.ApiRequests;
 
 [assembly: RegisterModule(typeof(RecombeeModule))]
 
@@ -35,25 +30,46 @@ namespace Kentico.Recombee
         {
             base.OnInit();
             DocumentEvents.Insert.After += ProductCreated;
+            DocumentEvents.Delete.After += ProductDeleted;
             ContactManagementEvents.ContactMerge.Execute += ContactMerge_Execute;
         }
 
+
         private void ProductCreated(object sender, DocumentEventArgs e)
         {
-            var document = e.Node;
+            var page = e.Node;
 
-            if (!document.IsProduct())
+            if (!page.IsProduct())
             {
                 return;
             }
 
-            if (!(document is SKUTreeNode productPage))
+            if (!(page is SKUTreeNode productPage))
             {
                 return;
             }
 
             var service = Service.Resolve<IProductUpdatesProcessor>();
             service.AddProduct(productPage);
+        }
+
+
+        private void ProductDeleted(object sender, DocumentEventArgs e)
+        {
+            var page = e.Node;
+
+            if (!page.IsProduct())
+            {
+                return;
+            }
+
+            if (!(page is SKUTreeNode productPage))
+            {
+                return;
+            }
+
+            var service = Service.Resolve<IProductUpdatesProcessor>();
+            service.DeleteProduct(productPage);
         }
 
 

@@ -17,5 +17,12 @@ namespace Kentico.Recombee
         /// </summary>
         /// <param name="productPage">Product page.</param>
         void AddProduct(SKUTreeNode productPage);
+
+
+        /// <summary>
+        /// Deletes given product from recombee database.
+        /// </summary>
+        /// <param name="user">Product to delete.</param>
+        void DeleteProduct(SKUTreeNode productPage);
     }
 }

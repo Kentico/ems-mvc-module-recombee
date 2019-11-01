@@ -26,7 +26,27 @@ namespace Kentico.Recombee
         /// <param name="productPage">Product page.</param>
         public void AddProduct(SKUTreeNode productPage)
         {
+            if (productPage is null)
+            {
+                throw new ArgumentNullException(nameof(productPage));
+            }
+
             recombeeClientService.UpdateProduct(productPage);
+        }
+
+
+        /// <summary>
+        /// Deletes given product from recombee database.
+        /// </summary>
+        /// <param name="user">Product to delete.</param>
+        public void DeleteProduct(SKUTreeNode productPage)
+        {
+            if (productPage is null)
+            {
+                throw new ArgumentNullException(nameof(productPage));
+            }
+
+            recombeeClientService.Delete(productPage);
         }
     }
 }

@@ -10,6 +10,20 @@ namespace Kentico.Recombee.Admin.Tests
     [TestFixture]
     public class ProductUpdatesProcessorTests : UnitTests
     {
+        private IProductUpdatesProcessor processor;
+        private IRecombeeClientService clientService;
+
+       
+        [SetUp]
+        public void SetUp()
+        {
+            clientService = Substitute.For<IRecombeeClientService>();
+            Service.Use<IRecombeeClientService>(clientService);
+
+            processor = Service.Resolve<IProductUpdatesProcessor>();
+        }
+
+
         [Test]
         public void Ctor_NullArgument_ThrowsArgumentNullException()
         {
@@ -18,16 +32,35 @@ namespace Kentico.Recombee.Admin.Tests
 
 
         [Test]
+        public void Methods_NullArgumentt_ThrowsArgumentNullException()
+        {
+            Assert.Multiple(() =>
+            {
+                Assert.That(() => { processor.AddProduct(null); }, Throws.ArgumentNullException);
+                Assert.That(() => { processor.DeleteProduct(null); }, Throws.ArgumentNullException);
+            });
+        }
+
+
+        [Test]
         public void AddProduct_ProductIsAdded()
         {
-            var clientService = Substitute.For<IRecombeeClientService>();
-            Service.Use<IRecombeeClientService>(clientService);
             var productPage = Substitute.For<SKUTreeNode>();
 
-            var processor = Service.Resolve<IProductUpdatesProcessor>();
             processor.AddProduct(productPage);
 
             clientService.Received().UpdateProduct(Arg.Is(productPage));
+        }
+
+
+        [Test]
+        public void DeleteProduct_ProductIsDeleted()
+        {
+            var productPage = Substitute.For<SKUTreeNode>();
+
+            processor.DeleteProduct(productPage);
+
+            clientService.Received().Delete(Arg.Is(productPage));
         }
     }
 }

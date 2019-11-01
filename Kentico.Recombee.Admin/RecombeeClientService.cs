@@ -114,6 +114,25 @@ namespace Kentico.Recombee
 
 
         /// <summary>
+        /// Deletes given product from recombee database.
+        /// </summary>
+        /// <param name="user">Product to delete.</param>
+        public void Delete(SKUTreeNode productPage)
+        {
+            var deleteRequest = new DeleteItem(productPage.DocumentGUID.ToString());
+           
+            try
+            {
+                client.Send(deleteRequest);
+            }
+            catch (Exception ex)
+            {
+                Service.Resolve<IEventLogService>().LogException("RecombeeAdminModule", "ON_PRODUCT_DELETE", ex);
+            }
+        }
+
+
+        /// <summary>
         /// Adds given purchases to Recombee database.
         /// </summary>
         /// <param name="itemsToAdd">Purchases to add.</param>
