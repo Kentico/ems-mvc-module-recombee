@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using CMS;
 using CMS.Base;
 using CMS.ContactManagement;
@@ -9,9 +8,6 @@ using CMS.DocumentEngine;
 using CMS.Ecommerce;
 
 using Kentico.Recombee;
-using Kentico.Recombee.Helpers;
-using Recombee.ApiClient;
-using Recombee.ApiClient.ApiRequests;
 
 [assembly: RegisterModule(typeof(RecombeeModule))]
 
@@ -35,47 +31,66 @@ namespace Kentico.Recombee
         {
             base.OnInit();
             DocumentEvents.Insert.After += ProductCreated;
+            DocumentEvents.Delete.After += ProductDeleted;
+            DocumentEvents.Update.After += ProductUpdated;
             ContactManagementEvents.ContactMerge.Execute += ContactMerge_Execute;
         }
 
+
         private void ProductCreated(object sender, DocumentEventArgs e)
         {
-            var document = e.Node;
+            var page = e.Node;
 
-            if (!document.IsProduct())
+            if (!page.IsProduct())
             {
                 return;
             }
 
-            if (!(document is SKUTreeNode productPage))
+            if (!(page is SKUTreeNode productPage))
             {
                 return;
             }
 
-            var databaseId = RecommendedProductsSettings.GetDatabaseId();
-            var secretToken = RecommendedProductsSettings.GetSecretToken();
-            var client = new RecombeeClient(databaseId, secretToken);
+            var service = Service.Resolve<IProductUpdatesProcessor>();
+            service.AddProduct(productPage);
+        }
 
-            var productsToPush = new SetItemValues(productPage.DocumentGUID.ToString(),
-                new Dictionary<string, object>
-                {
-                    { "Name", productPage.DocumentSKUName },
-                    { "Description", productPage.DocumentSKUShortDescription },
-                    { "Content", productPage.DocumentSKUDescription},
-                    { "Culture", productPage.DocumentCulture},
-                    { "ClassName", productPage.ClassName},
-                    { "Price", productPage.SKU.SKUPrice },
-                    { "Type", "Product"},
-                }, true);
 
-            try
+        private void ProductDeleted(object sender, DocumentEventArgs e)
+        {
+            var page = e.Node;
+
+            if (!page.IsProduct())
             {
-                client.Send(productsToPush);
+                return;
             }
-            catch (Exception ex)
+
+            if (!(page is SKUTreeNode productPage))
             {
-                Service.Resolve<IEventLogService>().LogException("RecombeeAdminModule", "ON_PRODUCT_CREATED", ex);
+                return;
             }
+
+            var service = Service.Resolve<IProductUpdatesProcessor>();
+            service.DeleteProduct(productPage);
+        }
+
+
+        private void ProductUpdated(object sender, DocumentEventArgs e)
+        {
+            var page = e.Node;
+
+            if (!page.IsProduct())
+            {
+                return;
+            }
+
+            if (!(page is SKUTreeNode productPage))
+            {
+                return;
+            }
+
+            var service = Service.Resolve<IProductUpdatesProcessor>();
+            service.UpdateProduct(productPage);
         }
 
 

@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using CMS.ContactManagement;
-
+using CMS.Core;
+using CMS.Ecommerce;
 using Kentico.Recombee.Helpers;
-
+using Kentico.Recombee.Mappers;
 using Recombee.ApiClient;
 using Recombee.ApiClient.ApiRequests;
 using Recombee.ApiClient.Bindings;
@@ -60,6 +62,28 @@ namespace Kentico.Recombee
 
 
         /// <summary>
+        /// Updates given product <paramref name="productPage"/> in Recombee database.
+        /// </summary>
+        /// <param name="productPage">Product to update.</param>
+        public void UpdateProduct(SKUTreeNode productPage)
+        {
+            var updateRequest = new SetItemValues(
+                productPage.DocumentGUID.ToString(),
+                ProductMapper.Map(productPage),
+                true);
+
+            try
+            {
+                client.Send(updateRequest);
+            }
+            catch (Exception ex)
+            {
+                Service.Resolve<IEventLogService>().LogException("RecombeeAdminModule", "ON_PRODUCT_CREATED", ex);
+            }
+        }
+
+
+        /// <summary>
         /// Deletes given purchases from Recombee database.
         /// </summary>
         /// <param name="itemsToDelete">Purchases to delete.</param>
@@ -86,6 +110,25 @@ namespace Kentico.Recombee
         public void Delete(DeleteUser user)
         {
             Send(user);
+        }
+
+
+        /// <summary>
+        /// Deletes given product from recombee database.
+        /// </summary>
+        /// <param name="user">Product to delete.</param>
+        public void Delete(SKUTreeNode productPage)
+        {
+            var deleteRequest = new DeleteItem(productPage.DocumentGUID.ToString());
+           
+            try
+            {
+                client.Send(deleteRequest);
+            }
+            catch (Exception ex)
+            {
+                Service.Resolve<IEventLogService>().LogException("RecombeeAdminModule", "ON_PRODUCT_DELETE", ex);
+            }
         }
 
 
