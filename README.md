@@ -1,15 +1,21 @@
 # Recombee Product Recommendations for Kentico EMS.
 This repository contains source code for PoC integration of Kentico EMS and Recombee Artificial Intelligence Powered
 Recommender as a Service.
+
+
 ## Description
 This project consists of two modules, Administration and MVC, each for one instance. After installation of the Administration module, you can access the Recombee application from the application menu. The Recombee application provides you with an interface for initialization of the Recombee database. A properly initialized database is necessary for the Administration module to work correctly.
 The MVC module ensures the *RecommendedProducts* page builder widget on your MVC site. By default, the MVC module logs shopping cart actions -- purchases and product additions. The *RecommendedProducts* widget includes only a basic set of CSS styles usable on your other MVC sites.
+
 ## Requirements
 1. *Kentico 12 Service Pack* installed.
 1. The integration uses online marketing features (e.g. Contacts), so the *Kentico EMS* license is required.
 1. The *Online marketing* module has to be enabled in the *Settings* application.
 1. You need to have an account on Recombee.com 
-   - you can create your own free account on Recombee.com or have your project registered in the Kentico organization (contact stanislavs(at)kentico.com for more details) 
+   - you can create your own free account on Recombee.com or have your project registered in the Kentico organization (contact stanislavs(at)kentico.com for more details)
+   
+> This module is used for demonstrating [AI product recomentations possibilities](https://www.kentico.com/blog/artificial-intelligence-(ai)-is-here-to-help-you-with-product-recommendations). Further adjustments are possibly needeed for production usage to fit particular use cases. Check out the [Known issues](../../issues) for more information.
+
 ## Installation
 ### General steps
 1. Download the latest ZIP package from [Releases](../../releases).
@@ -40,6 +46,6 @@ Because the widget renders the products list with links to an appropriate detail
 The second requirement for projects other than the DancingGoat sample site is to have the [Bottstrap CSS](https://getbootstrap.com/docs/4.3/getting-started/introduction/) linked on the page with the widget.
 Without the previously mentioned steps, the MVC widget may not work or can be displayed incorrectly.
 
-## [Questions & Support](https://github.com/Kentico/Home/blob/master/README.md)
+## [Questions & Support](https://github.com/Kentico/Home/blob/master/README.md#getting-support-for-open-source-projects)
 
 ![Analytics](https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Kentico/ems-mvc-module-recombee?pixel)
