@@ -14,7 +14,7 @@ The MVC module ensures the *RecommendedProducts* page builder widget on your MVC
 1. You need to have an account on Recombee.com 
    - you can create your own free account on Recombee.com or have your project registered in the Kentico organization (contact stanislavs(at)kentico.com for more details)
    
-> This module is used for demonstrating [AI product recomentations possibilities](https://www.kentico.com/blog/artificial-intelligence-(ai)-is-here-to-help-you-with-product-recommendations). Further adjustments are possibly needeed for production usage to fit particular use cases. Check out the [Known issues](../../issues) for more information.
+> This module is used for demonstrating [AI product recommendation possibilities](https://www.kentico.com/blog/artificial-intelligence-(ai)-is-here-to-help-you-with-product-recommendations). Further adjustments are possibly needed for production usage to fit particular use cases. Check out the [Known issues](../../issues) for more information.
 
 ## Installation
 ### General steps
