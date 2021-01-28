@@ -1,3 +1,9 @@
+[![No Maintenance Intended](https://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+## :warning: Deprecation Notice
+> This repository is no longer being maintained for compatibility with the latest version of the product and it is deprecated. We strongly recommend using the [Kentico Xperience Recombee module](https://github.com/Kentico/xperience-module-recombee)
+<br />
+
+
 # Recombee Product Recommendations for Kentico EMS.
 This repository contains source code for PoC integration of Kentico EMS and Recombee Artificial Intelligence Powered
 Recommender as a Service.
